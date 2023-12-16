@@ -16,6 +16,12 @@ def search_coords(request):
         return JsonResponse({'error': 'No product specified'}, status=400)
 
     product_names = list(Product.objects.values_list('name', flat=True))
+
+    # For the exercise I append this words from file to solve the last question
+    with open('app/files/google-10000-english.txt', 'r') as file:
+        words_fron_google_file = [line.strip().lower() for line in file]
+    product_names += words_fron_google_file
+
     finder = WordFinder(product_names)
     longest_product_name = finder.longest_word(query_product)
 
